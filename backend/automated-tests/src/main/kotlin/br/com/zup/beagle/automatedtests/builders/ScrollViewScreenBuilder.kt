@@ -30,7 +30,6 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
-import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
@@ -74,100 +73,44 @@ object ScrollViewScreenBuilder {
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
+        child = Container(
             children = listOf(
-                getHorizontalScrollView(),
-                getVerticalScrollView()
+                getScrollviewWithinScrollview()
             )
         )
     )
 
-    private fun getHorizontalScrollView() = Container(
-        context = ContextData(id = "testScrollHorizontal", value = "Click to see the new text in horizontal"),
-        children = listOf(
-            Text("Horizontal ScrollView with scrollBars"),
-            ScrollView(
-                children = listOf(
-                    Text("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
-                    Touchable(
-                        child = Text("@{testScrollHorizontal}")
-                            .applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
-                        onPress = listOf(
-                            SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
-                        )
-                    ),
-                    Container(
-                        context = ContextData(id = "testScrollViewWithRotation",
-                            value = "Click to see the text change, rotate and scroll horizontally"),
-                        children = listOf(
-                            ScrollView(
-                                children = listOf(
-                                    Touchable(
-                                        child = Text("@{testScrollViewWithRotation}"),
-                                        onPress = listOf(
-                                            SetContext(contextId = "testScrollViewWithRotation", value = PARAGRAPH)
-                                        )
-                                    ),
-                                    Button(
-                                        text = "horizontalScroll"
-                                    )
-                                ),
-                                scrollDirection = ScrollAxis.HORIZONTAL
-                            )
-                        )
-                    )
-                ),
-                scrollDirection = ScrollAxis.HORIZONTAL
-            )
-        )
-    ).applyStyle(Style(padding = EdgeValue(bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal())))
-
-    private fun getVerticalScrollView() = Container(
-        context = ContextData(id = "testScrollVertical", value = "Click to see the new text in vertical"),
+    private fun getScrollviewWithinScrollview() = Container(
+        context = ContextData(id = "scrollviewWithinScrollview", value = "Click to see a new text"),
         children = listOf(
             ScrollView(
+                scrollDirection = ScrollAxis.VERTICAL,
                 children = listOf(
                     Text("Vertical"),
                     Touchable(
-                        child = Text("@{testScrollVertical}"),
+                        child = Text("@{scrollviewWithinScrollview}"),
                         onPress = listOf(
-                            SetContext(contextId = "testScrollVertical", value = PARAGRAPH)
+                            SetContext(contextId = "scrollviewWithinScrollview", value = PARAGRAPH)
                         )
                     ),
-                    Container(
-                        context = ContextData(id = "testScrollRotation",
-                            value = "Click to see the text change, rotate and scroll vertically"),
+                    ScrollView(
                         children = listOf(
-                            ScrollView(
-                                children = listOf(
-                                    Touchable(
-                                        child = Text("@{testScrollRotation}"),
-                                        onPress = listOf(
-                                            SetContext(contextId = "testScrollRotation", value = PARAGRAPH)
-                                        )
-                                    ),
-                                    Button(
-                                        text = "verticalScroll"
-                                    )
-                                ),
-                                scrollDirection = ScrollAxis.VERTICAL
+                            Text("Horizontal").applyStyle(
+                                Style(
+                                    padding = EdgeValue(left = 10.unitReal())
+                                )
+                            ),
+                            Touchable(
+                                child = Text("@{scrollviewWithinScrollview}"),
+                                onPress = listOf(
+                                    SetContext(contextId = "scrollviewWithinScrollview", value = PARAGRAPH)
+                                )
                             )
-                        )
-                    ).applyStyle(
-                        Style(
-                            padding = EdgeValue(
-                                bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal()
-                            )
-                        )
+                        ),
+                        scrollDirection = ScrollAxis.HORIZONTAL
                     )
-                ),
-                scrollDirection = ScrollAxis.VERTICAL
+                )
             )
-        )
-    ).applyStyle(
-        Style(
-            padding = EdgeValue(left = 10.unitReal())
         )
     )
 
